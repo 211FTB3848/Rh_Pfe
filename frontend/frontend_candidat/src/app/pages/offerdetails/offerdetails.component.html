@@ -1,0 +1,187 @@
+<!-- Barre de Titre -->
+<div class="single-page-header" data-background-image="assets/images/single-job.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="utf-single-page-header-inner-aera">
+                    <div class="utf-left-side">
+                        <div class="utf-header-image"><a href="single-company-profile.html"><img src="../.././../assets/images/logo.png" alt=""></a></div>
+                        <div class="utf-header-details">
+                            <span class="dashboard-status-button utf-job-status-item green"><i class="icon-material-outline-business-center"></i> {{offer.typeOfferEmploi}}</span>
+                            <ul>
+                                <li>{{offer.location}} <img class="flag" src="images/flags/af.svg" alt="" title="Afghanistan" data-tippy-placement="top"></li>
+                            </ul>
+                            <h3>{{offer.titre}} <span class="utf-verified-badge" title="Vérifié" data-tippy-placement="top"></span></h3>
+                            <h5><i class="icon-material-outline-business-center"></i> {{offer.departement.nomDep}}</h5>
+                        </div>
+                    </div>
+                    <div class="utf-right-side" *ngIf="loginOrNot()">
+                        <div class="salary-box">
+                            <a href="#small-dialog" class="apply-now-button popup-with-zoom-anim margin-top-0"
+                               data-toggle="modal" data-target="#candidat">Postuler pour des Emplois <i class="icon-feather-chevron-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contenu de la Page -->
+<div class="container">
+    <div class="row">
+        <div class="col-xl-8 col-lg-8 utf-content-right-offset-aera">
+            <div class="utf-single-page-section-aera">
+                <div class="job-description-image-aera">
+                    <img src="images/job-detail-inner.png" alt="">
+                </div>
+                <div class="utf-boxed-list-headline-item">
+                    <h3><i class="icon-material-outline-description"></i> Description du Poste</h3>
+                </div>
+                <p>{{offer.resumePoste}}</p>
+
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-sm-12">
+                        <a href="#small-dialog" class="apply-now-button popup-with-zoom-anim margin-top-0">Postuler Maintenant <i class="icon-feather-chevron-right"></i></a>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-sm-12">
+                        <a href="#" class="button save-job-btn">Recevoir des Alertes d'Emploi <i class="icon-feather-chevron-right"></i></a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="utf-boxed-list-item margin-bottom-60">
+                <div class="utf-boxed-list-headline-item">
+                    <h3><i class="icon-material-outline-business-center"></i> Les Gens ont Aussi Consulté</h3>
+                </div>
+                <div class="utf-listings-container-part compact-list-layout">
+                    <a (click)="gotoJob(c.id)" class="utf-job-listing" *ngFor="let c of listOfferByCat">
+                        <div class="utf-job-listing-details">
+                            <div class="utf-job-listing-company-logo"> <img src="../../../assets/images/logo.png"> </div>
+                            <div class="utf-job-listing-description">
+                                <span class="dashboard-status-button utf-job-status-item green"><i class="icon-material-outline-business-center"></i> Temps Plein</span>
+                                <h3 class="utf-job-listing-title">{{c.titre}}</h3>
+                                <div class="utf-job-listing-footer">
+                                    <ul>
+                                        <li><i class="icon-feather-briefcase"></i> {{c.departement.nomDep}}</li>
+                                        <li><i class="icon-material-outline-account-balance-wallet"></i> {{c.salMin+' - '+c.salMax}}</li>
+                                        <li><i class="icon-material-outline-location-on"></i> {{c.location}}</li>
+                                        <li><i class="icon-material-outline-access-time"></i> {{c.dateCreation | date}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="bookmark-icon"></span>
+                    </a>
+                </div>
+                <div class="utf-centered-button margin-top-10"> <a href="jobs-list-layout-leftside.html" class="button utf-button-sliding-icon">Voir Plus d'Emplois <i class="icon-feather-chevron-right"></i></a> </div>
+            </div>
+        </div>
+
+        <!-- Barre Latérale -->
+        <div class="col-xl-4 col-lg-4">
+            <div class="utf-sidebar-container-aera">
+
+                <div class="utf-sidebar-widget-item">
+                    <h3>Salaire Offert</h3>
+                    <div class="utf-right-side">
+                        <div class="salary-box">
+                            <div class="salary-amount">{{offer.salMin+' TND'+ " - "+offer.salMax+' TND'}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="utf-sidebar-widget-item">
+                    <div class="utf-job-overview">
+                        <div class="utf-job-overview-headline">Informations sur l'Entreprise</div>
+                        <div class="utf-job-overview-inner">
+                            <ul>
+                                <li>
+                                    <div class="utf-job-listing-company-logo">
+                                        <img src="../../../assets/images/logo.png" style="border-radius: 50%; width: 80px;height: 80px;">
+                                    </div>
+                                </li>
+                                <li>
+                                    <i class="icon-material-outline-business-center"></i> <span>Nom de l'Entreprise :</span>
+                                    <h5>RHTALENT</h5>
+                                </li>
+                                <li>
+                                    <i class="icon-material-outline-account-circle"></i> <span>E-mail</span>
+                                    <h5>RHTALENT@CONTACT.COM</h5>
+                                </li>
+                                <li>
+                                    <i class="icon-line-awesome-glass"></i> <span>Téléphone</span>
+                                    <h5>77 886 633</h5>
+                                </li>
+                                <li>
+                                    <i class="icon-material-outline-location-on"></i> <span>Adresse</span>
+                                    <h5>Tunis</h5>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Début du Bloc d'Abonnement -->
+<section class="utf_cta_area_item utf_cta_area2_block">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="utf_subscribe_block">
+                    <div class="col-xl-8 col-md-7">
+                        <div class="section-heading">
+                            <h2 class="utf_sec_title_item utf_sec_title_item2">Abonnez-vous à notre Newsletter!</h2>
+                            <p class="utf_sec_meta">Abonnez-vous pour recevoir les dernières mises à jour et informations.</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-5">
+                        <div class="contact-form-action">
+                            <form method="post">
+                                <i class="icon-material-baseline-mail-outline"></i>
+                                <input class="form-control" type="email" placeholder="Entrez votre email" required="">
+                                <button class="utf_theme_btn" type="submit">S'abonner</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal HTML pour postuler à un emploi -->
+<div class="modal fade" id="candidat" tabindex="-1" role="dialog" aria-labelledby="registermodal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered login-pop-form" role="document">
+        <div class="modal-content" id="registermodal">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                    <span aria-hidden="true"><i class="ti-close"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #form="ngForm" (ngSubmit)="sendCandidat(form)">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Lettre de Motivation</label>
+                                <textarea rows="3" cols="3" [(ngModel)]="candidature.lettreMotivation" name="lettreMotivation" class="form-control"></textarea>
+                            </div>
+                            <label>CV</label>
+                            <input type="file" class="form-control" name="cv" (change)="onFileSelected($event)">
+                            <input type="hidden" [(ngModel)]="candidature.offerEmploi.id" name="offerEmploi" value="{{offer.id}}" class="form-control">
+                            <input type="hidden" [(ngModel)]="candidature.candidat.id" name="candidat" value="{{utilisateur.id}}" class="form-control">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Envoyer Candidature</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

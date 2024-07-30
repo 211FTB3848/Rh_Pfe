@@ -1,0 +1,61 @@
+<div class="page-header">
+  <div class="page-title">
+    <h4>List de Candidatures</h4>
+    <h6>Gérer vos Candidatures</h6>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <div class="table-top">
+      <div class="search-set">
+        <div class="form-group mb-3">
+          <input type="text" class="form-control" placeholder="Search Candidatures" [(ngModel)]="searchTerm">
+        </div>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Lettre de Motivation</th>
+            <th>CV</th>
+            <th>Offre d'Emploi</th>
+            <th>Candidat</th>
+            <th>Date de Candidature</th>
+            <th>Status</th>
+            <th class="text-end">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of listCan">
+            <td>{{ c.lettreMotivation }}</td>
+            <td>
+              <a (click)="downloadNomFile(c.id, c.nomFile)" href="javascript:void(0);">{{ c.nomFile }}</a>
+            </td>
+            <td>{{ c.offerEmploi.titre }}</td>
+            <td>{{ c.candidat.nom }} {{ c.candidat.prenom }}</td>
+            <td>{{ c.dateCandidture | date:'short'}}</td>
+            <td>
+              <span *ngIf="c.acepted">Accepted</span>
+              <span *ngIf="c.refused">Refused</span>
+              <span *ngIf="c.pinding">Pending</span>
+            </td>
+            <td class="text-end">
+              <ng-container *ngIf="c.pinding && adminService.rolesMatch(['CHEF DAPRATEMENT'])">
+                <a (click)="accepter(c.id)" class="me-3 confirm-text">
+                  <i class="fa fa-check"></i> Accepter
+                </a>
+                <a (click)="refuser(c.id)" class="confirm-text">
+                  <i class="fa fa-lock"></i> Refuser
+                </a>
+              </ng-container>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+  /* Add your custom styles here */
+  .content-wrapper {
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .page-title h3 {
+    font-weight: bold;
+    color: #343a40;
+  }
+
+  .btn-added {
+    background-color: #28a745;
+    color: white;
+  }
+
+  .card {
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+
+  .table th, .table td {
+    vertical-align: middle;
+  }
+
+  .badges {
+    padding: 5px 10px;
+    border-radius: 20px;
+    color: white;
+  }
+
+  .bg-lightred {
+    background-color: #ff6b6b;
+  }
+
+  .bg-lightgreen {
+    background-color: #28a745;
+  }
+
+  .modal-content {
+    border-radius: 10px;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-control:focus {
+    border-color: #28a745;
+    box-shadow: none;
+  }

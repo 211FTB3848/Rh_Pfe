@@ -1,0 +1,138 @@
+<div class="intro-banner dark-overlay big-padding">
+  <div class="utf-transparent-header-block-spacer"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="utf-banner-headline-text-part">
+          <h3>Trouvez le travail qui correspond à votre vie</h3>
+         
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="utf-intro-banner-search-form-block margin-top-40">
+          <div class="utf-intro-search-field-item">
+            <div class="utf-input-with-icon">
+              <i class="icon-material-outline-gps-fixed"></i>
+              <input id="selectlocation" type="text" placeholder="Sélectionnez l'emplacement">
+            </div>
+          </div>
+          <div class="utf-intro-search-field-item">
+            <i class="icon-feather-search"></i>
+            <input id="intro-keywords" type="text" placeholder="Rechercher des mots-clés de travail...">
+          </div>
+          <div class="utf-intro-search-field-item">
+            <select class="selectpicker default" data-live-search="true" data-selected-text-format="count" data-size="5"
+              title="Toutes les catégories">
+              <option>Service Client</option>
+              <option>Analyse de données</option>
+              <option>Conception Web</option>
+              <option>Développement logiciel</option>
+              <option>Réseautage</option>
+              <option>Ventes & Marketing</option>
+            </select>
+          </div>
+          <div class="utf-intro-search-button">
+            <button class="button ripple-effect" onclick="window.location.href='jobs-list-layout-leftside.html'"><i
+                class="icon-material-outline-search"></i> Rechercher des emplois</button>
+          </div>
+        </div>
+        <p class="utf-trending-silver-item"><span class="utf-trending-black-item">Mots-clés de travail tendance:</span>
+          <a (click)="findByCatJob(c.id)" *ngFor="let c of departements">{{c.nomDep | titlecase}}</a>
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <ul class="intro-stats margin-top-45 hide-under-992px">
+          <li><i class="icon-material-outline-business-center"></i> <sub class="counter_item"><strong
+                class="counter">{{nbrOffer}}</strong> <span>Emplois en ligne publiés</span></sub> </li>
+           </ul>
+      </div>
+    </div>
+  </div>
+  <div class="utf-video-container-block" data-background-image="images/home-video-background.jpg">
+    <video loop="" autoplay="" muted="">
+      <source src="assets/images/home-video.mp4" type="video/mp4">
+    </video>
+  </div>
+</div>
+
+<!-- Catégories d'emplois -->
+<div class="section margin-top-60 margin-bottom-50">
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="utf-section-headline-item centered margin-top-0 margin-bottom-40">
+          <span>Catégories d'emplois</span>
+          <h3>Choisissez votre secteur</h3>
+          <div class="utf-headline-display-inner-item">Catégories d'emplois</div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-6 col-lg-4" *ngFor="let c of departements">
+        <a (click)="findByCatJob(c.id)" class="photo-box photo-category-box small"
+          data-background-image="assets/images/job-category-01.jpg">
+          <div class="utf-opening-position-counter-item">10 Postes ouverts</div>
+          <div class="utf-opening-box-content-part">
+            <div class="utf-category-box-icon-item"> <i class="icon-line-awesome-bullhorn"></i>  </div>
+            <h3>{{c.nomDep | titlecase}}</h3>
+            <span>2,612 Emplois</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Dernières offres d'emploi -->
+<div class="section gray padding-top-65 padding-bottom-75">
+  <div class="container">
+
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="utf-section-headline-item centered margin-top-0 margin-bottom-40">
+          <span>Dernières offres d'emploi</span>
+          <h3>Dernières offres d'emploi</h3>
+          <div class="utf-headline-display-inner-item">Dernières offres d'emploi</div>
+        </div>
+        <div class="utf-intro-banner-search-form-block">
+          <div class="utf-intro-search-field-item">
+            <i class="icon-feather-search"></i>
+            <input id="intro-keywords" type="text" placeholder="Rechercher des mots-clés de travail...">
+          </div>
+        </div>
+        <div class="utf-listings-container-part compact-list-layout margin-top-35">
+          <a (click)="findByIdJob(offer.id)" class="utf-job-listing utf-apply-button-item"
+            *ngFor="let offer of listoffer">
+            <div class="utf-job-listing-details">
+              <div class="utf-job-listing-company-logo"> <img src="../../../assets/images/logo.png"
+                  alt=""> </div>
+              <div class="utf-job-listing-description">
+                <span class="dashboard-status-button utf-job-status-item green"><i
+                    class="icon-material-outline-business-center"></i> {{offer.typeOfferEmploi}}</span>
+                <h3 class="utf-job-listing-title">{{offer.titre}}</h3>
+                <div class="utf-job-listing-footer">
+                  <ul>
+                    <li><i class="icon-feather-briefcase"></i> {{offer.departement.nomDep}}</li>
+                    <li><i class="icon-material-outline-account-balance-wallet"></i>{{offer.salMin+ '-'+ offer.salMax}}
+                    </li>
+                    <li><i class="icon-material-outline-location-on"></i> {{offer.location}}</li>
+                    <li><i class="icon-material-outline-access-time"></i> {{offer.dateCreation | date}}</li>
+                  </ul>
+                </div>
+              </div>
+              <span class="list-apply-button ripple-effect" (click)="findByIdJob(offer.id)">Parcourir l'offre <i
+                  class="icon-line-awesome-bullhorn"></i></span>
+            </div>
+          </a>
+        </div>
+        <div class="utf-centered-button margin-top-10">
+          <a href="jobs-list-layout-leftside.html" routerLink="/lisOfferByCat"
+            class="button utf-ripple-effect-dark utf-button-sliding-icon margin-top-20">Parcourir toutes les offres <i
+              class="icon-feather-chevron-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,332 @@
+<div class="page-header">
+    <div class="page-title">
+      <h4>Liste des Chef Projet</h4>
+      <h6>Gérez vos des Chef Projet</h6>
+    </div>
+    <div class="page-btn">
+      <a   class="btn btn-added" data-bs-target="#addchefprj" data-bs-toggle="modal"  *ngIf="userService.rolesMatch(['CHEF DAPRATEMENT'])">
+        <img src="assets/img/icons/plus.svg" alt="img"> Ajouter un Chef Projet
+      </a>
+    </div>
+  </div>
+  
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <input type="text" class="form-control" placeholder="Rechercher par nom" [(ngModel)]="searchNom">
+        </div>
+        <div class="col-md-4">
+          <input type="text" class="form-control" placeholder="Rechercher par CIN" [(ngModel)]="searchCIN">
+        </div>
+        <div class="col-md-4">
+          <input type="text" class="form-control" placeholder="Rechercher par email" [(ngModel)]="searchEmail">
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nom du Chef de Projet</th>
+              <th>Adresse</th>
+              <th>CIN</th>
+              <th>Email</th>
+              <th>Date de Naissance</th>
+              <th>Date d'Embauche</th>
+              <th>Département</th>
+              <th>Statut</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let c of listChefProjet">
+              <td><a>{{ c.nom + ' ' + c.prenom }}</a></td>
+              <td>{{ c.adresse }}</td>
+              <td>{{ c.cin }}</td>
+              <td>{{ c.email }}</td>
+              <td>{{ c.dateNaissance | date }}</td>
+              <td>{{ c.dateEmbauche | date }}</td>
+              <td>{{ c.departement.nomDep }}</td>
+              <td>
+                <span class="badges bg-lightred" *ngIf="!c.etat">Désactivé</span>
+                <span class="badges bg-lightgreen" *ngIf="c.etat">Activé</span>
+              </td>
+              <td>
+                <a class="me-3" data-bs-target="#updateEmp" data-bs-toggle="modal" (click)="update(c.id)">
+                  <img src="assets/img/icons/edit.svg" alt="img">
+                </a>
+                <a class="me-3 confirm-text" href="javascript:void(0);" *ngIf="c.etat" (click)="active(c.id)">
+                  <img src="assets/img/icons/lock.svg" width="20" height="20" alt="img">
+                </a>
+                <a class="me-3 confirm-text" href="javascript:void(0);" *ngIf="!c.etat" (click)="active(c.id)">
+                  <img src="assets/img/icons/unlock.svg" width="20" height="20" alt="img">
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+ 
+  
+<div class="modal fade" id="addchefprj"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="userModalLabel" aria-hidden="true" *ngIf="userService.rolesMatch(['CHEF DAPRATEMENT'])">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="userModalLabel">Utilisateur</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form #form="ngForm" (ngSubmit)="ajouterChefProjet(form)">
+                    <div class="box-body">
+                        <div class="row">
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="form-label">Nom</label>
+                                    <input type="text" [(ngModel)]="user.nom" name="nom" class="form-control"
+                                        placeholder="Nom" required>
+                                    <div *ngIf="form.controls['nom']?.invalid && (form.controls['nom']?.dirty || form.controls['nom']?.touched)"
+                                        class="text-danger">
+                                        Nom est obligatoire
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="form-label">Prénom</label>
+                                    <input type="text" [(ngModel)]="user.prenom" name="prenom" class="form-control"
+                                        placeholder="Prénom" required>
+                                    <div *ngIf="form.controls['prenom']?.invalid && (form.controls['prenom']?.dirty || form.controls['prenom']?.touched)"
+                                        class="text-danger">
+                                        Prénom est obligatoire
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="form-label">Adresse</label>
+                                    <input type="text" [(ngModel)]="user.adresse" name="adresse" class="form-control"
+                                        placeholder="Adresse" required>
+                                    <div *ngIf="form.controls['adresse']?.invalid && (form.controls['adresse']?.dirty || form.controls['adresse']?.touched)"
+                                        class="text-danger">
+                                        Adresse est obligatoire
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="form-label">Téléphone</label>
+                                    <input type="text" [(ngModel)]="user.tel" name="tel" class="form-control"
+                                        placeholder="Téléphone" required pattern="^[0-9]{8}$">
+                                    <div *ngIf="form.controls['tel']?.invalid && (form.controls['tel']?.dirty || form.controls['tel']?.touched)"
+                                        class="text-danger">
+                                        Téléphone est obligatoire et doit être de 8 chiffres
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="form-label">CIN</label>
+                                    <input type="text" [(ngModel)]="user.cin" name="cin" class="form-control"
+                                        placeholder="CIN" required pattern="^[0-9]{8}$">
+                                    <div *ngIf="form.controls['cin']?.invalid && (form.controls['cin']?.dirty || form.controls['cin']?.touched)"
+                                        class="text-danger">
+                                        CIN est obligatoire et doit être de 8 chiffres
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" [(ngModel)]="user.email" name="email" class="form-control"
+                                        placeholder="Email" required email>
+                                    <div *ngIf="form.controls['email']?.invalid && (form.controls['email']?.dirty || form.controls['email']?.touched)"
+                                        class="text-danger">
+                                        Email est obligatoire et doit être valide
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="form-label">Date de Naissance</label>
+                                    <input type="date" [(ngModel)]="user.dateNaissance" name="dateNaissance"
+                                        class="form-control" required [max]="today">
+                                    <div *ngIf="form.controls['dateNaissance']?.invalid && (form.controls['dateNaissance']?.dirty || form.controls['dateNaissance']?.touched)"
+                                        class="text-danger">
+                                        Date de Naissance est obligatoire et doit être inférieure à aujourd'hui
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="form-label">Date d'embauche</label>
+                                    <input type="date" [(ngModel)]="user.dateEmbauche" name="dateEmbauche"
+                                        class="form-control" required [max]="today">
+                                    <div *ngIf="form.controls['dateEmbauche']?.invalid && (form.controls['dateEmbauche']?.dirty || form.controls['dateEmbauche']?.touched)"
+                                        class="text-danger">
+                                        Date d'embauche est obligatoire et doit être inférieure à aujourd'hui
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="form-label">Mot de Passe</label>
+                                    <input type="password" [(ngModel)]="user.password" name="password"
+                                        class="form-control" placeholder="Mot de Passe" required minlength="8">
+                                    <div *ngIf="form.controls['password']?.invalid && (form.controls['password']?.dirty || form.controls['password']?.touched)"
+                                        class="text-danger">
+                                        Mot de Passe est obligatoire et doit être de 8 caractères minimum
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" [(ngModel)]="user.departement.id" name="departement"
+                                value="{{utilisateur.departement.id}}">
+                          
+
+                            <div class="box-footer">
+                                <button type="button" class="btn btn-danger me-1" data-bs-dismiss="modal">
+                                    <i class="ti-close"></i> Annuler
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="ti-save-alt"></i> Ajouter 
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="updateEmp" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="userModalLabel" aria-hidden="true" *ngIf="userService.rolesMatch(['CHEF DAPRATEMENT'])">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="userModalLabel">Mettre à jour l'utilisateur</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form #form="ngForm" (ngSubmit)="updateChefProjet(form)">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="form-label">Nom</label>
+                                    <input type="text" [(ngModel)]="user.nom" name="nom" class="form-control"
+                                        placeholder="Nom" required>
+                                    <div *ngIf="form.controls['nom']?.invalid && (form.controls['nom']?.dirty || form.controls['nom']?.touched)"
+                                        class="text-danger">
+                                        Nom est obligatoire
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="form-label">Prénom</label>
+                                    <input type="text" [(ngModel)]="user.prenom" name="prenom" class="form-control"
+                                        placeholder="Prénom" required>
+                                    <div *ngIf="form.controls['prenom']?.invalid && (form.controls['prenom']?.dirty || form.controls['prenom']?.touched)"
+                                        class="text-danger">
+                                        Prénom est obligatoire
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="form-label">Adresse</label>
+                                    <input type="text" [(ngModel)]="user.adresse" name="adresse" class="form-control"
+                                        placeholder="Adresse" required>
+                                    <div *ngIf="form.controls['adresse']?.invalid && (form.controls['adresse']?.dirty || form.controls['adresse']?.touched)"
+                                        class="text-danger">
+                                        Adresse est obligatoire
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="form-label">Téléphone</label>
+                                    <input type="text" [(ngModel)]="user.tel" name="tel" class="form-control"
+                                        placeholder="Téléphone" required>
+                                    <div *ngIf="form.controls['tel']?.invalid && (form.controls['tel']?.dirty || form.controls['tel']?.touched)"
+                                        class="text-danger">
+                                        Téléphone est obligatoire
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="form-label">CIN</label>
+                                    <input type="text" [(ngModel)]="user.cin" name="cin" class="form-control"
+                                        placeholder="CIN" required>
+                                    <div *ngIf="form.controls['cin']?.invalid && (form.controls['cin']?.dirty || form.controls['cin']?.touched)"
+                                        class="text-danger">
+                                        CIN est obligatoire
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="form-label">Date de Naissance</label>
+                                    <input type="date" [(ngModel)]="user.dateNaissance" name="dateNaissance"
+                                        class="form-control" required>
+                                    <div *ngIf="form.controls['dateNaissance']?.invalid && (form.controls['dateNaissance']?.dirty || form.controls['dateNaissance']?.touched)"
+                                        class="text-danger">
+                                        Date de Naissance est obligatoire
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" [(ngModel)]="user.email" name="email" class="form-control"
+                                        placeholder="Email" required>
+                                    <div *ngIf="form.controls['email']?.invalid && (form.controls['email']?.dirty || form.controls['email']?.touched)"
+                                        class="text-danger">
+                                        Email est obligatoire
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="form-label">Département</label>
+                                    <select [(ngModel)]="user.departement.id" name="departementId" class="form-control"
+                                        required>
+                                        <option *ngFor="let dep of departements" [value]="dep.id">{{dep.nomDep}}
+                                        </option>
+                                    </select>
+                                    <div *ngIf="form.controls['departementId']?.invalid && (form.controls['departementId']?.dirty || form.controls['departementId']?.touched)"
+                                        class="text-danger">
+                                        Département est obligatoire
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label class="form-label">Date d'embauche</label>
+                                    <input type="date" [(ngModel)]="user.dateEmbauche" name="dateEmbauche"
+                                        class="form-control" required>
+                                    <div *ngIf="form.controls['dateEmbauche']?.invalid && (form.controls['dateEmbauche']?.dirty || form.controls['dateEmbauche']?.touched)"
+                                        class="text-danger">
+                                        Date d'embauche est obligatoire
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+<!-- pointage.component.html -->
+<div class="page-header">
+    <div class="page-title">
+        <h4>Marquer votre Présence</h4>
+        <h6>Gérez vos pointages</h6>
+    </div>
+    <div class="page-btn">
+        <a data-bs-target="#marquerPointage" data-bs-toggle="modal" class="btn btn-added">
+            <img src="assets/img/icons/plus.svg" alt="img">Marquer Présence
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Début</th>
+                        <th>Fin</th>
+                        <th>Employeur</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let p of pointages">
+                        <td>{{p.dateJours | date}}</td>
+                        <td>{{p.datedebut  }}</td>
+                        <td>{{p.dateFin }}</td>
+                        <td>{{p.employeur.nom+' '+p.employeur.prenom }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for marking presence -->
+<div class="modal fade" id="marquerPointage" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Marquer Présence</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="marquerPresence()">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <label>Date Début:</label>
+                                <input class="form-control" type="time" [(ngModel)]="pointage.datedebut" name="datedebut" required />
+                            </div>
+                            <div class="form-group col-6">
+                                <label>Date Fin:</label>
+                                <input class="form-control" type="time" [(ngModel)]="pointage.dateFin" name="dateFin" required />
+                            </div>
+                            <input type="hidden" [(ngModel)]="pointage.employeur.id" name="employeur" />
+
+                            <button type="submit" class="btn btn-primary">Marquer Présence</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

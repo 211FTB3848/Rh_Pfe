@@ -1,0 +1,53 @@
+<!-- Barre de titre -->
+<div id="titlebar" class="gradient">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2>Inscription</h2>
+        <nav id="breadcrumbs">
+          <ul>
+            <li><a href="index-1.html">Accueil</a></li>
+            <li>Inscription</li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Contenu de la page -->
+<div class="container">
+  <div class="row">
+    <div class="col-xl-6 offset-xl-3">
+      <div class="utf-login-register-page-aera margin-bottom-50">
+        <div class="utf-welcome-text-item">
+          <h3>Créez votre nouveau compte!</h3>
+          <span>Vous n'avez pas de compte? <a href="login.html">Connectez-vous!</a></span>
+        </div>
+        
+        <form #form="ngForm" (ngSubmit)="addNewJobSeeker(form)" >
+          <div class="utf-no-border">
+            <input type="text" class="utf-with-border" name="nom" placeholder="Nom" [(ngModel)]="jobseeker.nom" required>
+          </div>
+          <div class="utf-no-border">
+            <input type="text" class="utf-with-border" name="prenom" placeholder="Prénom" [(ngModel)]="jobseeker.prenom" required>
+          </div>
+          <div class="utf-no-border">
+            <input type="text" class="utf-with-border" name="adresse" placeholder="Adresse" [(ngModel)]="jobseeker.adresse" required>
+          </div>
+          <div class="utf-no-border">
+            <input type="text" class="utf-with-border" name="numTel" placeholder="Téléphone" [(ngModel)]="jobseeker.tel" required>
+          </div>
+          <div class="utf-no-border">
+            <input type="email" class="utf-with-border" name="email" placeholder="Email" [(ngModel)]="jobseeker.email" required>
+          </div>
+          <div class="utf-no-border">
+            <input type="password" class="utf-with-border" name="password" placeholder="Mot de passe" [(ngModel)]="jobseeker.password" required>
+          </div>
+          <button class="button full-width utf-button-sliding-icon ripple-effect margin-top-10" type="submit">Créer un compte <i class="icon-feather-chevron-right"></i></button>
+        </form> 
+      </div>
+    </div>
+  </div>
+</div>
+ 

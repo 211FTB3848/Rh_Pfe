@@ -1,0 +1,128 @@
+<div class="content-wrapper">
+    <div class="container-full">
+        <div class="page-header">
+            <div class="page-title">
+                <h3>List de tache</h3>
+            </div>
+            <div class="page-btn" *ngIf="adminService.rolesMatch(['CHEF DAPRATEMENT']) || adminService.rolesMatch(['CHEF PROJET'])">
+                <button class="btn btn-success" data-bs-target="#addtache" data-bs-toggle="modal">Ajouter Tache</button>
+            </div>
+        </div>
+
+        <section class="content card">
+            <div class="row">
+                <div class="col-xl-12 col-12">
+                    <div class="d-md-flex align-items-center">
+                        <div class="mt-4">
+                            <h4>{{ projet.titre | titlecase }}</h4>
+                            <h5>{{ projet.chefProjet.nom + ' ' + projet.chefProjet.prenom | titlecase }}</h5>
+                            <h6>#P-{{ projet.id }}</h6>
+                            <p class="mb-2"><i class="fa fa-clock-o me-2"></i>Début : {{ projet.datedebut | date }}</p>
+                            <p class="mb-2"><i class="fa fa-clock-o me-2"></i>Fin : {{ projet.datefin | date }}</p>
+                        </div>
+                    </div>
+                    <div class="card-body pt-0">
+                        <h4 class="fw-bold text-dark">Description du Projet</h4>
+                        <p class="text-muted">{{ projet.description | titlecase }}</p>
+                    </div>
+                </div>
+                <div class="col-xl-12 col-12">
+                    <input type="text" class="form-control" placeholder="Rechercher par Mot cle" [(ngModel)]="searchKeyword">
+
+                    <div class="table-responsive">
+                        <table class="table ">
+                            <thead>
+                                <tr>
+                                    <th>Nom et Prenom</th>
+                                    <th>Téléphone</th>
+                                    <th>Email</th>
+                                    <th>Nom Tache </th>
+                                    <th>Documents</th>
+                                    <th>Dép</th>
+                                    <th>Etat</th>
+                                    <th>Actions</th>
+                                 </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let tache of searchTache()">
+                                    <td>{{ tache.employeur.nom + ' ' + tache.employeur.prenom }}</td>
+                                    <td>{{ tache.employeur.tel }}</td>
+                                    <td>{{ tache.employeur.email }}</td>
+                                    <td>{{ tache.nomTache }}</td>
+                                    <td>{{ tache.nomDoc }}</td>
+                                    <td>{{ tache.employeur.departement.nomDep }}</td>
+                                    <td>
+                                        <span class="badges bg-lightred" *ngIf="!tache.etat">En cours</span>
+                                        <span class="badges bg-lightgreen" *ngIf="tache.etat">Fini</span>
+                                    </td>
+                                    <td>
+                                        <a class="me-3 confirm-text"  (click)="editTache(tache)" data-bs-toggle="modal" data-bs-target="#addtache"> 
+                                             <img src="assets/img/icons/edit.svg" alt="img">
+                                        </a>
+                                        <a  class="me-3 confirm-text" (click)="deleteTache(tache.id)"> <img src="assets/img/icons/delete.svg" alt="img"> </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<div class="modal fade" id="addtache" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="userModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="userModalLabel">Tache </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form #form="ngForm" (ngSubmit)="ajouterTache(form)">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label class="form-label">Nom Tache</label>
+                            <input type="text" [(ngModel)]="tache.nomTache" name="nomTache" class="form-control" placeholder="Nom" required>
+                            <div *ngIf="form.controls['nomTache']?.invalid && (form.controls['nomTache']?.dirty || form.controls['nomTache']?.touched)" class="text-danger">
+                                Nom Tache est obligatoire
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Documents</label>
+                            <input type="file" class="form-control" name="doc" (change)="onFileSelected($event)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
+                            <textarea rows="5" [(ngModel)]="tache.description" name="description" class="form-control" placeholder="Description" required></textarea>
+                            <div *ngIf="form.controls['description']?.invalid && (form.controls['description']?.dirty || form.controls['description']?.touched)" class="text-danger">
+                                Description est obligatoire
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Employeur</label>
+                            <select [(ngModel)]="tache.employeur.id" name="employeur" class="form-control" required>
+                                <option *ngFor="let u of listemp" [value]="u.id">{{ u.nom }} {{ u.prenom }}</option>
+                            </select>
+                            <div *ngIf="form.controls['employeur']?.invalid && (form.controls['employeur']?.dirty || form.controls['employeur']?.touched)" class="text-danger">
+                                Employeur est obligatoire
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" [(ngModel)]="tache.projet.id" name="projet" value="{{ projet.id }}" class="form-control">
+                        </div>
+                        <div class="box-footer">
+                            <button type="button" class="btn btn-danger me-1" data-bs-dismiss="modal">
+                                <i class="ti-close"></i> Annuler
+                            </button>
+                            <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+                                <i class="ti-save-alt"></i> Ajouter 
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

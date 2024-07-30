@@ -1,0 +1,109 @@
+
+   
+
+                <div class="page-header">
+                    <div class="page-title">
+                        <h4>Tache List</h4>
+                        <h6>Manage your Tache</h6>
+                    </div>
+                   
+                </div>
+  
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-top">
+                            <div class="search-set">
+                                
+                                <div class="search-input">
+                                    <a class="btn btn-searchset"><img src="assets/img/icons/search-white.svg"
+                                            alt="img"></a>
+                                </div>
+                            </div>
+                             
+                        </div>
+  
+                        <div class="card" id="filter_inputs">
+                            <div class="card-body pb-0">
+                                <div class="row">
+                                    <div class="col-lg-2 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <input type="text" placeholder="Enter Customer Code">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <input type="text" placeholder="Enter Customer Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <input type="text" placeholder="Enter Phone Number">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <input type="text" placeholder="Enter Email">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-1 col-sm-6 col-12  ms-auto">
+                                        <div class="form-group">
+                                            <a class="btn btn-filters ms-auto"><img
+                                                    src="assets/img/icons/search-whites.svg" alt="img"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+  
+                        <div class="table-responsive">
+                            <table class="table datanew">
+                                <thead>
+                                    <tr>
+                                        <th>Nom et Prenom</th>
+                                        <th>Téléphone</th>
+                                        <th>Email</th>
+                                        <th>Nom Tache </th>
+                                        <th>Documents</th>
+                                        <th>Dép</th>
+                                        <th>Etat</th>
+                                        <th  *ngIf="adminService.rolesMatch(['EMPLOYEE'])">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let user of listTache">
+                                        <td>{{ user.employeur.nom + ' ' + user.employeur.prenom }} 
+                                        
+                                        </td>
+                                        <td>{{ user.employeur.tel }}</td>
+                                        <td>{{ user.employeur.email }}</td>
+                                        <td>{{ user.nomTache }}</td>
+                                        <td>{{ user.nomDoc }}</td>
+                                        <td>{{ user.employeur.departement.nomDep }}</td>
+                                        <td>
+                                            <span class="badges bg-lightred" *ngIf="!user.etat"    >En cours</span>
+                                            <span class="badges bg-lightgreen" *ngIf="user.etat"   >Fini</span>
+                                        </td>
+                                        <td  *ngIf="adminService.rolesMatch(['EMPLOYEE'])">
+                                            <a class="me-3 confirm-text" href="javascript:void(0);" *ngIf="user.etat"
+                                            >
+                                               <img src="../../../assets/img/icons/finish.svg" width="20" height="20" alt="img">
+                                           </a>
+                                           <a class="me-3 confirm-text" href="javascript:void(0);" *ngIf="!user.etat"
+                                           (click)="fini(user.id)" >
+                                               <img src="../../../assets/img/icons/loading.svg" width="20" height="20" alt="img">
+                                           </a>
+                                        </td>
+    
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+  
+         
+  
+   
+  
+  
+   

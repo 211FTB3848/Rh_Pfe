@@ -1,0 +1,96 @@
+<div class="content">
+    <div class="page-header">
+        <div class="page-title">
+            <h4>Liste des Départements</h4>
+            <h6>Gérez votre Département</h6>
+        </div>
+        <div class="page-btn">
+            <a data-bs-target="#adddep" data-bs-toggle="modal" class="btn btn-added"><img src="assets/img/icons/plus.svg" alt="img">Ajouter Département</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-top">
+                <div class="search-set">
+                    <div class="search-input">
+                        <input type="text" class="form-control" [(ngModel)]="searchTerm" placeholder="Rechercher par nom">
+                        <a class="btn btn-searchset"><img src="assets/img/icons/search-white.svg" alt="img"></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nom Département</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let d of filteredDepartments()">
+                            <td>{{d.nomDep}}</td>
+                            <td>
+                                <a data-bs-target="#adddep" data-bs-toggle="modal" (click)="update(d.id)" class="me-3" href="editcustomer.html">
+                                    <img src="assets/img/icons/edit.svg" alt="img">
+                                </a>
+                                <a class="me-3 confirm-text" href="javascript:void(0);" (click)="deleteDepartment(d.id)">
+                                    <img src="assets/img/icons/delete.svg" alt="img">
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="adddep" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title" id="staticBackdropLabel">Département</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="form" #form="ngForm" (ngSubmit)="ajouterDepartment(form)">
+                    <div class="box-body">
+                        <p style="color: red;">{{message}}</p>
+                        <hr class="my-15">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Nom Département</label>
+                                    <input type="text" [(ngModel)]="dep.nomDep" name="nomDep" class="form-control" placeholder="Nom" required>
+                                    <div *ngIf="form.controls['nomDep']?.invalid && (form.controls['nomDep']?.dirty || form.controls['nomDep']?.touched)" class="text-danger">
+                                        Nom Département est obligatoire
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label">Description</label>
+                                    <textarea rows="4" [(ngModel)]="dep.description" name="description" class="form-control" placeholder="Description" required></textarea>
+                                    <div *ngIf="form.controls['description']?.invalid && (form.controls['description']?.dirty || form.controls['description']?.touched)" class="text-danger">
+                                        Description est obligatoire
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="box-footer">
+                            <button type="button" class="btn btn-danger me-1" data-bs-dismiss="modal" (click)="resetForm(form)">
+                                <i class="ti-close"></i> Annuler
+                            </button>
+                            <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+                                <i class="ti-save-alt"></i> Enregistrer
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

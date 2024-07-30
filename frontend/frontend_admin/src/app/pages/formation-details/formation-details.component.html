@@ -1,0 +1,142 @@
+<!-- component.html -->
+<div class="content-wrapper">
+  <div class="container-full">
+      <div class="page-header">
+          <div class="page-title">
+              <h3>Information Formation</h3>
+          </div>
+          <div class="page-btn">
+              <button class="btn btn-added" data-bs-target="#addMemberModal" *ngIf="adminService.rolesMatch(['CHEF DAPRATEMENT'])" data-bs-toggle="modal">Ajouter Membre</button>
+          </div>
+          <div class="page-btn" *ngIf="formation.formateur == null ">
+              <button class="btn btn-secondary" data-bs-target="#addtache" data-bs-toggle="modal">Ajouter Formateur</button>
+          </div>
+      </div>
+
+      <section class="content card">
+          <div class="row">
+              <div class="col-xl-6 col-12">
+                  <div class="d-md-flex align-items-center">
+                      <div class="mt-4">
+                          <h4>{{ formation.titre | titlecase }}</h4>
+                          <h6>#P-{{ formation.id }}</h6>
+                          <p class="mb-2"><i class="fa fa-clock-o me-2"></i>Début : {{ formation.datedebut | date }}</p>
+                          <p class="mb-2"><i class="fa fa-clock-o me-2"></i>Fin : {{ formation.datefin | date }}</p>
+                      </div>
+                  </div>
+                  <div class="card-body pt-0">
+                      <h4 class="fw-bold text-dark">Description de la Formation</h4>
+                      <p class="text-muted">{{ formation.description | titlecase }}</p>
+                  </div>
+              </div>
+              <div class="col-xl-6 col-12">
+                  <h3>Information sur le Formateur</h3>
+                  <p>Nom & Prénom : {{ formation.formateur.nom + ' ' + formation.formateur.prenom }}</p>
+                  <p>Adresse : {{ formation.formateur.adresse }}</p>
+                  <p>Tél : {{ formation.formateur.tel }}</p>
+                  <p>Email : {{ formation.formateur.email }}</p>
+              </div>
+              <div class="col-xl-12 col-12">
+                  <div class="table-responsive">
+                      <table class="table datanew">
+                          <thead>
+                              <tr>
+                                  <th>Nom et Prénom</th>
+                                  <th>Adresse</th>
+                                  <th>Téléphone</th>
+                                  <th>CIN</th>
+                                  <th>Date de Naissance</th>
+                                  <th>Email</th>
+                                  <th>Dép</th>
+                                  <th>STATUT</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr *ngFor="let user of formation.members">
+                                  <td>{{ user.nom + ' ' + user.prenom }}</td>
+                                  <td>{{ user.adresse }}</td>
+                                  <td>{{ user.tel }}</td>
+                                  <td>{{ user.cin }}</td>
+                                  <td>{{ user.dateNaissance | date }}</td>
+                                  <td>{{ user.email }}</td>
+                                  <td>{{ user.departement.nomDep }}</td>
+                                  <td>
+                                      <span class="badges bg-lightred" *ngIf="user.etat==false">Désactivé</span>
+                                      <span class="badges bg-lightgreen" *ngIf="user.etat==true">Activé</span>
+                                  </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+      </section>
+  </div>
+</div>
+
+<div class="modal fade" id="addtache" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="userModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h1 class="modal-title fs-5" id="userModalLabel">Utilisateur</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form #form="ngForm" (ngSubmit)="ajouterFormateur(form)">
+                  <div class="box-body">
+                      <div class="form-group">
+                          <label class="form-label">Formateur</label>
+                          <select [(ngModel)]="formation.formateur" name="formateur" class="form-control" required>
+                              <option *ngFor="let user of listemp" [ngValue]="user">{{ user.nom }} {{ user.prenom }}</option>
+                          </select>
+                          <div *ngIf="form.controls['formateur']?.invalid && (form.controls['formateur']?.dirty || form.controls['formateur']?.touched)" class="text-danger">
+                              Formateur est obligatoire
+                          </div>
+                      </div>
+                      <div class="box-footer">
+                          <button type="button" class="btn btn-danger me-1" data-bs-dismiss="modal">
+                              <i class="ti-close"></i> Annuler
+                          </button>
+                          <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+                              <i class="ti-save-alt"></i> Enregistrer
+                          </button>
+                      </div>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="modal fade" id="addMemberModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="userModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h1 class="modal-title fs-5" id="userModalLabel">Utilisateur</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form #addMemberForm="ngForm" (ngSubmit)="ajouterMembres(addMemberForm)">
+                  <div class="box-body">
+                      <div class="form-group">
+                          <label class="form-label">Membres</label>
+                          <select [(ngModel)]="selectedMembers" name="members" class="form-control" multiple required>
+                              <option *ngFor="let user of listemp" [ngValue]="user.id">{{ user.nom }} {{ user.prenom }}</option>
+                          </select>
+                      </div>
+                      <div class="box-footer">
+                          <button type="button" class="btn btn-danger me-1" data-bs-dismiss="modal">
+                              <i class="ti-close"></i> Annuler
+                          </button>
+                          <button type="submit" class="btn btn-primary" [disabled]="addMemberForm.invalid">
+                              <i class="ti-save-alt"></i> Enregistrer
+                          </button>
+                      </div>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>

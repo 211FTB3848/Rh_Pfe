@@ -1,0 +1,215 @@
+<!-- Dashboard Container -->
+<div class="utf-dashboard-container-aera">
+  <div class="utf-dashboard-sidebar-item">
+      <div class="utf-dashboard-sidebar-item-inner" data-simplebar="">
+          <div class="utf-dashboard-nav-container">
+              <!-- Responsive Navigation Trigger -->
+              <a href="#" class="utf-dashboard-responsive-trigger-item">
+                  <span class="hamburger utf-hamburger-collapse-item">
+                      <span class="utf-hamburger-box-item">
+                          <span class="utf-hamburger-inner-item"></span>
+                      </span>
+                  </span>
+                  <span class="trigger-title">Dashboard Navigation Menu</span>
+              </a>
+              <!-- Navigation -->
+              <div class="utf-dashboard-nav">
+                  <div class="utf-dashboard-nav-inner">
+                      <div class="dashboard-profile-box">
+                          <span class="avatar-img">
+                              <img alt="" src="images/user-avatar-placeholder.png" class="photo">
+                          </span>
+                          <div class="user-profile-text">
+                              <span class="fullname">{{ jobseeker.nom | titlecase }} {{
+                                  jobseeker.prenom | titlecase }}</span>
+                              <span class="user-role">Demandeur Emploi </span>
+                          </div>
+                      </div>
+                      <div class="clearfix"></div>
+                      <ul style="list-style-type: none;">
+                          <li><a routerLink="/myprofils"><i class="icon-feather-user"></i> Mon Profils</a></li>
+
+                          <li><a routerLink="/mycandidature"><i class="icon-line-awesome-user-secret"></i>  Mes Candidature </a></li>
+                          <li><a (click)="logout()" class="active"><i
+                                      class="icon-material-outline-power-settings-new"></i> Déconnexion</a></li>
+
+                      </ul>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- Dashboard Sidebar / End -->
+
+  <!-- Dashboard Content -->
+  <div class="utf-dashboard-content-container-aera" data-simplebar="">
+      <div id="dashboard-titlebar" class="utf-dashboard-headline-item">
+          <div class="row">
+              <div class="col-xl-12">
+                  <h3>My Profile</h3>
+                  <nav id="breadcrumbs">
+                      <ul>
+                          <li><a href="index-1.html">Home</a></li>
+                          <li><a href="dashboard.html">Dashboard</a></li>
+                          <li>My Profile</li>
+                      </ul>
+                  </nav>
+              </div>
+          </div>
+      </div>
+      <div class="utf-dashboard-content-inner-aera">
+          <div class="content">
+
+              <div class="card">
+                  <div class="card-body">
+                      <div class="profile-set">
+                          <div class="profile-head">
+                          </div>
+                          <div class="profile-top">
+                              <div class="profile-content">
+                                   
+
+                                  <div class="profile-contentname">
+                                      <h2>{{ jobseeker.prenom }} {{ jobseeker.nom }}</h2>
+                                      <h4>Mettre à jour votre photo et vos détails personnels.</h4>
+                                  </div>
+                              </div>
+
+
+                          </div>
+                      </div>
+                      <div class="modal-body">
+                          <div class="offer-details">
+
+                              <p><strong>Adresse :</strong> {{ jobseeker.adresse }}</p>
+                              <p><strong>Email :</strong> {{ jobseeker.email }}</p>
+                              <p><strong>Num Telephone :</strong> {{ jobseeker.tel }}</p>
+
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                          <a href="javascript:void(0);" class="btn btn-primary" data-toggle="modal"
+                              data-target="#account">Modifier</a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        
+          <!-- Dashboard Content / End -->
+      </div>  
+     
+  
+
+
+
+                  <!-- Footer -->
+                  <div class="utf-dashboard-footer-spacer-aera"></div>
+                  <div class="utf-small-footer margin-top-15">
+                      <div class="utf-small-footer-copyrights">Copyright &copy; 2021 All Rights Reserved.</div>
+                  </div>
+              </div>
+          </div>
+          <div class="modal fade" id="account" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="staticBackdropLabel">Mettre A jour Compte {{jobseeker.nom | titlecase }} {{
+                        jobseeker.prenom | titlecase}}</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                      <form #form="ngForm">
+                          <div class="box-body">
+                              <div class="row">
+                                  <div class="col-6">
+                                      <div class="form-group">
+                                          <label class="form-label">Nom</label>
+                                          <input type="text" [(ngModel)]="jobseeker.nom" name="nom"
+                                              class="form-control" placeholder="Nom" required>
+                                          <div *ngIf="form.controls['nom']?.invalid && (form.controls['nom']?.dirty || form.controls['nom']?.touched)"
+                                              class="text-danger">
+                                              Le nom est obligatoire
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-6">
+                                      <div class="form-group">
+                                          <label class="form-label">Prénom</label>
+                                          <input type="text" [(ngModel)]="jobseeker.prenom" name="prenom"
+                                              class="form-control" placeholder="Prénom" required>
+                                          <div *ngIf="form.controls['prenom']?.invalid && (form.controls['prenom']?.dirty || form.controls['prenom']?.touched)"
+                                              class="text-danger">
+                                              Le prénom est obligatoire
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-6">
+                                      <div class="form-group">
+                                          <label class="form-label">Adresse</label>
+                                          <input type="text" [(ngModel)]="jobseeker.adresse" name="adresse"
+                                              class="form-control" placeholder="Adresse" required>
+                                          <div *ngIf="form.controls['adresse']?.invalid && (form.controls['adresse']?.dirty || form.controls['adresse']?.touched)"
+                                              class="text-danger">
+                                              L'adresse est obligatoire
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-6">
+                                      <div class="form-group">
+                                          <label class="form-label">Téléphone</label>
+                                          <input type="text" [(ngModel)]="jobseeker.tel" name="tel"
+                                              class="form-control" placeholder="Téléphone" required
+                                              pattern="^[0-9]{8}$">
+                                          <div *ngIf="form.controls['tel']?.invalid && (form.controls['tel']?.dirty || form.controls['tel']?.touched)"
+                                              class="text-danger">
+                                              Le téléphone est obligatoire et doit comporter 8 chiffres
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <div class="col-6">
+                                      <div class="form-group">
+                                          <label class="form-label">Email</label>
+                                          <input type="email" [(ngModel)]="jobseeker.email" name="email"
+                                              class="form-control" placeholder="Email" required email>
+                                          <div *ngIf="form.controls['email']?.invalid && (form.controls['email']?.dirty || form.controls['email']?.touched)"
+                                              class="text-danger">
+                                              Un email valide est obligatoire
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="col-6">
+                                      <div class="form-group">
+                                          <label class="form-label">Date de Naissance</label>
+                                          <input type="date" [(ngModel)]="jobseeker.dateNaissance"
+                                              name="dateNaissance" class="form-control" required>
+                                          <div *ngIf="form.controls['dateNaissance']?.invalid && (form.controls['dateNaissance']?.dirty || form.controls['dateNaissance']?.touched)"
+                                              class="text-danger">
+                                              La date de naissance est obligatoire
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <div class="col-6">
+                                      <div class="form-group">
+                                          <label class="form-label">Mot de Passe</label>
+                                          <input type="password" [(ngModel)]="jobseeker.password" name="password"
+                                              class="form-control" placeholder="Mot de Passe" required>
+                                          <div *ngIf="form.controls['password']?.invalid && (form.controls['password']?.dirty || form.controls['password']?.touched)"
+                                              class="text-danger">
+                                              Le mot de passe est obligatoire
+                                          </div>
+                                      </div>
+                                  </div>
+
+                              </div>
+                          </div>
+                          <div class="box-footer">
+                              <button type="submit" class="btn btn-primary pull-right">Ajouter</button>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+  </div>

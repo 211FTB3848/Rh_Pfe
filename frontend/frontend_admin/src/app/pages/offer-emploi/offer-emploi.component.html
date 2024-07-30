@@ -1,0 +1,85 @@
+<div class="page-header">
+    <div class="page-title">
+        <h4>List de Offer emploi  </h4>
+        <h6>Gere vous Offer emploi</h6>
+    </div>
+    <div class="page-btn" *ngIf="adminService.rolesMatch(['CHEF DAPRATEMENT'])">
+        <a data-bs-target="#offerModal" data-bs-toggle="modal" class="btn btn-added">
+            <img src="assets/img/icons/plus.svg" alt="img">Ajouter Offer D'emploi
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table datanew">
+          <thead>
+            <tr>
+              <th>Titre</th>
+              <th>Description</th>
+              <th>Salaire</th>
+              <th>Localisation</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let offer of listoffer">
+              <td>{{ offer.titre }}</td>
+              <td>{{ offer.resumePoste }}</td>
+              <td>{{ offer.salMin }} - {{ offer.salMax }}</td>
+              <td>{{ offer.location }}</td>
+              <td>
+                <a  class="b" (click)="findById(offer.id)" data-bs-toggle="modal" data-bs-target="#offerModal">  <img src="assets/img/icons/edit.svg" alt="img"></a>
+                <a  class="b"  (click)="deleteOffer(offer.id)">  <img src="assets/img/icons/delete.svg" alt="img"></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="offerModal" tabindex="-1" aria-labelledby="offerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="offerModalLabel">{{ offerEmploi.id === 0 ? 'Ajouter' : 'Modifier' }} Offre d'Emploi</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="titre" class="form-label">Titre</label>
+              <input type="text" class="form-control" id="titre" [(ngModel)]="offerEmploi.titre" name="titre">
+            </div>
+            <div class="mb-3">
+              <label for="resumePoste" class="form-label">Résumé du Poste</label>
+              <textarea class="form-control" id="resumePoste" [(ngModel)]="offerEmploi.resumePoste" name="resumePoste"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="salMax" class="form-label">Salaire Max</label>
+              <input type="number" class="form-control" id="salMax" [(ngModel)]="offerEmploi.salMax" name="salMax">
+            </div>
+            <div class="mb-3">
+              <label for="salMin" class="form-label">Salaire Min</label>
+              <input type="number" class="form-control" id="salMin" [(ngModel)]="offerEmploi.salMin" name="salMin">
+            </div>
+            <div class="mb-3">
+              <label for="location" class="form-label">Localisation</label>
+              <input type="text" class="form-control" id="location" [(ngModel)]="offerEmploi.location" name="location">
+            </div>
+            <div class="mb-3">
+              <label for="dateExpiraton" class="form-label">Date d'Expiration</label>
+              <input type="date" class="form-control" id="dateExpiraton" [(ngModel)]="offerEmploi.dateExpiraton" name="dateExpiraton">
+            </div>
+            <div class="mb-3">
+              <label for="typeOfferEmploi" class="form-label">Type d'Offre</label>
+              <input type="text" class="form-control" id="typeOfferEmploi" [(ngModel)]="offerEmploi.typeOfferEmploi" name="typeOfferEmploi">
+            </div>
+            <button type="button" class="btn btn-primary" (click)="saveOffer()">Ajouter</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,43 @@
+<!-- Barre de Titre -->
+<div id="titlebar" class="gradient">
+  <div class="container">
+      <div class="row">
+          <div class="col-md-12">
+              <h2>Connexion</h2>
+              <nav id="breadcrumbs">
+                  <ul>
+                      <li><a href="index-1.html">Accueil</a></li>
+                      <li>Connexion</li>
+                  </ul>
+              </nav>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- Contenu de la Page -->
+<div class="container">
+  <div class="row">
+      <div class="col-xl-6 offset-xl-3">
+          <div class="utf-login-register-page-aera margin-bottom-50">
+              <div class="utf-welcome-text-item">
+                  <h3>Bienvenue, Connectez-vous pour Continuer</h3>
+                  <span>Vous n'avez pas de compte? <a routerLink="/register">Inscrivez-vous!</a></span>
+              </div>
+              <form #form="ngForm" (ngSubmit)="login(form)">
+                  <div class="utf-no-border">
+                      <input type="text" class="utf-with-border" ngModel name="email" placeholder="Adresse Email" required>
+                  </div>
+                  <div class="utf-no-border">
+                      <input type="password" class="utf-with-border" ngModel name="password" placeholder="Mot de Passe" required>
+                  </div>
+                  <button class="button full-width utf-button-sliding-icon ripple-effect margin-top-10" type="submit">Connexion
+                      <i class="icon-feather-chevron-right"></i>
+                  </button>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+
+  

@@ -1,0 +1,56 @@
+<div class="main-wrapper">
+    <div class="account-content">
+        <div class="login-wrapper">
+            <div class="login-content">
+                <div class="login-userset">
+                    <form #form="ngForm" (ngSubmit)="login(form)">
+                        <div class="login-logo">
+                            <img src="assets/img/logo.png" alt="img">
+                        </div>
+                        <div class="login-userheading">
+                            <h3>Connexion</h3>
+                            <h4>Veuillez vous connecter à votre compte</h4>
+                        </div>
+                        <div *ngIf="message" class="error-message">
+                            {{ message }}
+                        </div>
+                        <div class="form-login">
+                            <label>Email</label>
+                            <div class="form-addons">
+                                <input type="email" ngModel name="email" placeholder="Entrez votre adresse e-mail" required email>
+                                <img src="assets/img/icons/mail.svg" alt="img">
+                            </div>
+                            <div *ngIf="form.submitted || form.controls?.['email']?.touched">
+                                <small *ngIf="form.controls?.['email']?.errors?.['required']" class="text-danger">L'email est requis</small>
+                                <small *ngIf="form.controls?.['email']?.errors?.['email']" class="text-danger">Format d'email invalide</small>
+                            </div>
+                        </div>
+                        <div class="form-login">
+                            <label>Mot de passe</label>
+                            <div class="pass-group">
+                                <input type="password" ngModel name="password" class="pass-input" placeholder="Entrez votre mot de passe" required minlength="6">
+                                <span class="fas toggle-password fa-eye-slash"></span>
+                            </div>
+                            <div *ngIf="form.submitted || form.controls?.['password']?.touched">
+                                <small *ngIf="form.controls?.['password']?.errors?.['required']" class="text-danger">Le mot de passe est requis</small>
+                                <small *ngIf="form.controls?.['password']?.errors?.['minlength']" class="text-danger">Le mot de passe doit comporter au moins 6 caractères</small>
+                            </div>
+                        </div>
+                        <div class="form-login">
+                            <button class="btn btn-login" type="submit">Connexion</button>
+                        </div>
+                        <div class="form-login">
+                            <button class="btn btn-inscription" type="button" routerLink="/register">Inscription</button>
+                        </div>
+                        <div class="form-login">
+                            <a routerLink="/mot-de-passe-oblie"> Mot de passe oublie</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="login-img">
+                <img src="../../../assets/img/login.jpg" alt="img">
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,137 @@
+<div class="page-header">
+  <div class="page-title">
+    <h4>List de Projet </h4>
+    <h6>Gerer vous Projet</h6>
+  </div>
+  <div class="page-btn" *ngIf="adminService.rolesMatch(['CHEF DAPRATEMENT'])">
+    <a data-bs-target="#addprj" data-bs-toggle="modal" class="btn btn-added"><img src="assets/img/icons/plus.svg"
+        alt="img">Ajouter Projet</a>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <div class="table-top">
+      <div class="search-set">
+            <div class="form-group mb-3">
+            <input type="text" class="form-control" placeholder="Search Projects" [(ngModel)]="searchTerm"
+               >
+          </div>
+       </div>
+    </div>
+ 
+
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Projet Titre</th>
+            <th>Chef de Projet</th>
+            <th>Departement</th>
+            <th>Project Start Date</th>
+            <th>Project fin Date</th>
+            <th class="text-end">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of searchPrj()">
+            <td>{{ p.titre }}</td>
+            <td>{{ p.chefProjet.nom }} {{ p.chefProjet.prenom }}</td>
+            <td>{{ p.departement.nomDep }}</td>
+            <td>{{ p.datedebut | date:'short'}}</td>
+            <td>{{ p.datefin | date:'short'}}</td>
+            <td class="text-end">
+              <a (click)="goToProjectDetails(p.id)" class="me-3 confirm-text" href="javascript:void(0);">
+                <img src="assets/img/icons/settings.svg" alt="img">
+              </a>
+              <a  *ngIf="adminService.rolesMatch(['CHEF DAPRATEMENT'])" (click)="editProjet(p)" data-bs-target="#addprj" data-bs-toggle="modal" class="me-3 confirm-text"
+                href="javascript:void(0);">
+                <img src="assets/img/icons/edit.svg" alt="img">
+              </a>
+              <a  *ngIf="adminService.rolesMatch(['CHEF DAPRATEMENT'])" (click)="deleteProjet(p.id)" class="confirm-text" href="javascript:void(0);">
+                <img src="assets/img/icons/delete.svg" alt="img">
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div  *ngIf="adminService.rolesMatch(['CHEF DAPRATEMENT'])" class="modal fade" id="addprj" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">{{ projet.id ? 'Modifier Projet' : 'Ajouter Projet' }}
+        </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #form="ngForm" (ngSubmit)="projet.id ? updateProjet(form) : ajouterProjet(form)">
+          <div class="form-group">
+            <label class="form-label">Titre</label>
+            <input type="text" [(ngModel)]="projet.titre" name="titre" class="form-control" placeholder="Titre"
+              required>
+            <div
+              *ngIf="form.controls['titre']?.invalid && (form.controls['titre']?.dirty || form.controls['titre']?.touched)"
+              class="text-danger">
+              Titre est obligatoire
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <textarea [(ngModel)]="projet.description" name="description" class="form-control" placeholder="Description"
+              required></textarea>
+            <div
+              *ngIf="form.controls['description']?.invalid && (form.controls['description']?.dirty || form.controls['description']?.touched)"
+              class="text-danger">
+              Description est obligatoire
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date de Début</label>
+            <input type="date" [(ngModel)]="projet.datedebut" name="datedebut" class="form-control"
+              placeholder="Date de Début" required>
+            <div
+              *ngIf="form.controls['datedebut']?.invalid && (form.controls['datedebut']?.dirty || form.controls['datedebut']?.touched)"
+              class="text-danger">
+              Date de début est obligatoire
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date de Fin</label>
+            <input type="date" [(ngModel)]="projet.datefin" name="datefin" class="form-control"
+              placeholder="Date de Fin" required>
+            <div
+              *ngIf="form.controls['datefin']?.invalid && (form.controls['datefin']?.dirty || form.controls['datefin']?.touched)"
+              class="text-danger">
+              Date de fin est obligatoire
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Chef de Projet</label>
+            <select [(ngModel)]="projet.chefProjet" name="chefProjet" class="form-control" required>
+              <option *ngFor="let user of utilisateurs" [ngValue]="user">{{ user.nom }} {{ user.prenom }}</option>
+            </select>
+            <div
+              *ngIf="form.controls['chefProjet']?.invalid && (form.controls['chefProjet']?.dirty || form.controls['chefProjet']?.touched)"
+              class="text-danger">
+              Chef de projet est obligatoire
+            </div>
+          </div>
+
+          <div class="box-footer">
+            <button type="button" class="btn btn-danger me-1" data-bs-dismiss="modal">
+              <i class="ti-close"></i> Annuler
+            </button>
+            <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+              <i class="ti-save-alt"></i> Ajouter
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

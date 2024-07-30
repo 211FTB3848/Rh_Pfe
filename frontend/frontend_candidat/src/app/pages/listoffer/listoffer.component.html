@@ -1,0 +1,117 @@
+<div id="titlebar" class="gradient">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Liste des Emplois avec Barre Latérale Gauche</h2>
+          <nav id="breadcrumbs">
+            <ul>
+              <li><a routerLink="/">Accueil</a></li>
+              <li>Liste des Emplois avec Barre Latérale Gauche</li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Fin de la Barre de Titre -->
+  
+  <!-- Contenu de la Page -->
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-3 col-lg-4">
+        <div class="utf-sidebar-container-aera">
+  
+          <div class="utf-sidebar-widget-item">
+            <h3>Mots-Clés de Recherche</h3>
+            <div class="utf-input-with-icon">
+              <input type="text" [(ngModel)]="searchKeyword" placeholder="Recherche de Mots-Clés...">
+              <i class="icon-material-outline-search" (click)="searchJobs()"></i>
+            </div>
+          </div>
+  
+          <div class="utf-sidebar-widget-item">
+            <h3>Catégorie</h3>
+            <ul style="list-style-type: none;">
+              <li *ngFor="let c of listcat"><a (click)="findByCatJob(c.id)">
+                <i class="icon-feather-chevron-right"></i> {{c.nomDep}}</a></li>
+            </ul>
+          </div>
+  
+        </div>
+      </div>
+  
+      <div class="col-xl-9 col-lg-8">
+        <div class="utf-inner-search-section-title">
+          <h4><i class="icon-material-outline-search"></i> Liste des Emplois</h4>
+        </div>
+  
+        <div class="utf-listings-container-part compact-list-layout margin-top-35">
+          <a (click)="findByIdJob(offer.id)" class="utf-job-listing utf-apply-button-item" *ngFor="let offer of searchJobs()">
+            <div class="utf-job-listing-details">
+              <div class="utf-job-listing-company-logo">
+                <img src=".././../../assets/images/logo.png" alt="">
+              </div>
+              <div class="utf-job-listing-description">
+                <span class="dashboard-status-button utf-job-status-item green"><i class="icon-material-outline-business-center"></i> {{offer.typeOfferEmploi}}</span>
+                <h3 class="utf-job-listing-title">{{offer.titre}}</h3>
+                <div class="utf-job-listing-footer">
+                  <ul>
+                    <li><i class="icon-feather-briefcase"></i> {{offer.departement.nomDep}}</li>
+                    <li><i class="icon-material-outline-account-balance-wallet"></i> {{offer.salMin + '-' + offer.salMax}}</li>
+                    <li><i class="icon-material-outline-location-on"></i> {{offer.location}}</li>
+                    <li><i class="icon-material-outline-access-time"></i> {{offer.dateCreation | date}}</li>
+                  </ul>
+                </div>
+              </div>
+              <span class="list-apply-button ripple-effect" (click)="findByIdJob(offer.id)">Parcourir l'Emploi <i class="icon-line-awesome-bullhorn"></i></span>
+            </div>
+          </a>
+        </div>
+  
+        <!-- Pagination -->
+        <div class="clearfix"></div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="utf-pagination-container-aera margin-top-30 margin-bottom-60">
+              <nav class="pagination">
+                <ul>
+                  <li class="utf-pagination-arrow"><a href="#"><i class="icon-material-outline-keyboard-arrow-left"></i></a></li>
+                  <li><a href="#" class="current-page">1</a></li>
+                  <li><a href="#">2</a></li>
+                  <li><a href="#">3</a></li>
+                  <li class="utf-pagination-arrow"><a href="#"><i class="icon-material-outline-keyboard-arrow-right"></i></a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Début du Bloc d'Abonnement -->
+  <section class="utf_cta_area_item utf_cta_area2_block">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="utf_subscribe_block">
+            <div class="col-xl-8 col-md-7">
+              <div class="section-heading">
+                <h2 class="utf_sec_title_item utf_sec_title_item2">Abonnez-vous à notre newsletter!</h2>
+                <p class="utf_sec_meta">Abonnez-vous pour recevoir les dernières mises à jour et informations.</p>
+              </div>
+            </div>
+            <div class="col-xl-4 col-md-5">
+              <div class="contact-form-action">
+                <form method="post">
+                  <i class="icon-material-baseline-mail-outline"></i>
+                  <input class="form-control" type="email" placeholder="Entrez votre email" required="">
+                  <button class="utf_theme_btn" type="submit">S'abonner</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

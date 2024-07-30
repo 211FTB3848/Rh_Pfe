@@ -1,0 +1,108 @@
+<div class="page-header">
+    <div class="page-title">
+        <h4>Liste des Congés</h4>
+        <h6>Gérez vos Congés</h6>
+    </div>
+    <div class="page-btn" *ngIf="!adminService.rolesMatch(['ADMIN'])">
+        <a data-bs-target="#addConge" data-bs-toggle="modal" class="btn btn-added">
+            <img src="assets/img/icons/plus.svg" alt="img">Ajouter un Congé
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Raison</th>
+                        <th>Date de Début</th>
+                        <th>Date de Fin</th>
+                        <th>Jours</th>
+                        <th>Employeur</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let c of conges">
+                        <td>{{c.reason}}</td>
+                        <td>{{c.datedebutConge | date}}</td>
+                        <td>{{c.dateFinConge | date}}</td>
+                        <td>{{c.numberJours}}</td>
+                        <td>{{c.employeur.nom}} {{c.employeur.prenom}}</td>
+                        <td>
+                            <p *ngIf="c.pinding && !c.etat" style="color:orange">En Attente</p>
+                            <p *ngIf="c.etat && !c.pinding" style="color:green">Accepter</p>
+                            <p *ngIf="!c.etat && !c.pinding" style="color:red">Refusé</p>
+                        </td>
+                        <td *ngIf="(adminService.rolesMatch(['CHEF DAPRATEMENT']) || adminService.rolesMatch(['ADMIN'])) && c.employeur.rolesUtilisateur[0].nomRoles!=='CHEF DAPRATEMENT'">
+                            <button class="btn btn-success" (click)="acceptConge(c.id)" *ngIf="c.pinding && !c.etat">
+                                <i class="fa fa-check"></i>
+                            </button>
+                            <button class="btn btn-danger" (click)="refuseConge(c.id)" *ngIf="c.pinding && !c.etat">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal code for adding Conge -->
+<div class="modal fade" id="addConge" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Ajouter un Congé</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form #form="ngForm" (ngSubmit)="addConge(form)">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <label>Raison :</label>
+                                <select class="form-control" [(ngModel)]="newConge.reason" name="reason" required>
+                                    <option value="Congé annuel">Congé annuel</option>
+                                    <option value="Congé maladie">Congé maladie</option>
+                                    <option value="Congé maternité">Congé maternité</option>
+                                    <option value="Congé paternité">Congé paternité</option>
+                                    <option value="Congé pour événement familial">Congé pour événement familial</option>
+                                    <option value="Congé sans solde">Congé sans solde</option>
+                                    <option value="Congé pour formation">Congé pour formation</option>
+                                    <option value="Congé pour déménagement">Congé pour déménagement</option>
+                                    <option value="Congé de récupération">Congé de récupération</option>
+                                    <option value="Congé de volontariat">Congé de volontariat</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-6">
+                                <label>Date de Début :</label>
+                                <input class="form-control" type="date" [(ngModel)]="newConge.datedebutConge"
+                                    (change)="calculateDays()" name="datedebutConge" required />
+                            </div>
+                            <div class="form-group col-6">
+                                <label>Date de Fin :</label>
+                                <input type="date" class="form-control" [(ngModel)]="newConge.dateFinConge"
+                                    (change)="calculateDays()" name="dateFinConge" required />
+                            </div>
+                            <div class="form-group col-6">
+                                <label>Nombre de Jours :</label>
+                                <input class="form-control" type="number" [(ngModel)]="newConge.numberJours"
+                                    name="numberJours" required readonly />
+                            </div>
+                            <!-- Champ Employeur caché et défini sur l'utilisateur connecté -->
+                            <input type="hidden" [(ngModel)]="newConge.employeur.id" name="employeur" />
+                            <button type="submit" class="btn btn-primary">Ajouter le Congé</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
